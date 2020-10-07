@@ -4,16 +4,12 @@
   become: true
   tasks:
 
-  - name: update repository index
-    yum:
+  - name: uninstall apache, ntp and php package
+    package:
       update_cache: yes
-
-  - name: install apache2 package
-    yum:
-      name: httpd
+      name: 
+        - httpd
+        - php
+        - ntp
       state: absent	
-
-  - name: install ntp
-    yum: 
-      name: ntp
-      state: absent
+      
