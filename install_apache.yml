@@ -4,16 +4,27 @@
   become: true
   tasks:
 
-  - name: update repository index
+  - name: dnf install
     yum:
+      name: dnf
+      state: latest
+      
+  - name: update repository index
+    dnf:
       update_cache: yes
+    when: ansible_distribution_version == "7.7"
 
   - name: install apache2 package
-    yum:
+    dnf:
       name: httpd
       state: latest	
-
+    when: ansible_distribution == "CentOS"
   - name: install ntp
-    yum: 
+    dnf: 
       name: ntp
+      state: latest
+    when: ansible_distribution == "CentOS"
+  - name: php install
+    dnf:
+      name: php
       state: latest
