@@ -40,8 +40,34 @@
           - php  
         state: latest
       when: ansible_distribution == "CentOS"
-    
-    - name: copiere fisiere
+      
+    - name: start httpd (CentOS)
+      tags: starthttpd
+      service: 
+        name: httpd
+        state: started
+        enabled: yes
+      when: ansible_distribution == "CentOS"
+
+    - name: change e-maila ddress for admin
+      tags: httpd, email
+      lineinfile: 
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^ServerAdmin'
+        line: ServerAdmin somebody@somewhere.net
+      when: ansible_distribution == "CentOS"
+      register: httpd
+
+    - name: restart httpd
+      tags: httpd
+      service: 
+        name: httpd
+        state: restarted
+      when: httpd.changed
+
+
+
+    - name: copiere 
       tags: copy_files
       copy: 
         src: default_site.html
