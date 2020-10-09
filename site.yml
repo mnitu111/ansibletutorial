@@ -4,6 +4,7 @@
   become: true
   pre_tasks: 
   - name: install updates
+    tags: always
     yum: 
       update_only: yes
       update_cache: yes
@@ -13,6 +14,7 @@
   become: true
   tasks: 
     - name: install apache and php packages
+      tags: apache, php
       package:
         name: 
           - httpd
@@ -24,6 +26,7 @@
   become: true
   tasks: 
     - name: install mariadb package
+      tags: MariaDB
       yum:
         name: mariadb-server
         state: latest
@@ -33,6 +36,7 @@
   become: true
   tasks: 
     - name: install samba
+      tags: samba
       package:
         name: samba
         state: latest
