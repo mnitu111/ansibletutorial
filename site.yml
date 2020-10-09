@@ -10,7 +10,7 @@
       update_cache: yes
     when: ansible_distribution == "CentOS"
 
-- hosts: web_servers
+- hosts: all
   become: true
   tasks: 
     - name: install apache and php packages
@@ -21,6 +21,15 @@
           - php  
         state: latest
       when: ansible_distribution == "CentOS"
+    
+    - name: copiere fisiere
+      tags: copy_files
+      copy: 
+        src: default_site.html
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: 0644
 
 - hosts: db_servers
   become: true
@@ -40,3 +49,4 @@
       package:
         name: samba
         state: latest
+
